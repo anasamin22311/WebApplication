@@ -62,7 +62,8 @@ namespace WebApplication5.Controllers
                 ID = employee.ID,
                 Name = employee.Name,
                 Email = employee.Email,
-                Department = employee.Departmet
+                Department = employee.Departmet,
+                ExistingPhotoPath = employee.PhotoPath
             };
             return View(employeeEditViewModel);
         }
