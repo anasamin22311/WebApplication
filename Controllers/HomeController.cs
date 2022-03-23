@@ -34,12 +34,14 @@ namespace WebApplication5.Controllers
 
     }
         //[Route("~/Home")]
+        [HttpGet]
         [Route("~/")]
         public ViewResult Index()
         {
             var model = _employeeRepository.GetAllEmployees();
             return View(model);        
         }
+        [HttpGet]
         [Route("{id?}")]
         public ViewResult Details(int? id)
         {
@@ -51,6 +53,25 @@ namespace WebApplication5.Controllers
         [HttpGet]
         public ViewResult Create()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(EmployeeCreateViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string uniqueFileName = processUploadedFile(model);
+                
+                Employee newEmployee = new Employee
+                {
+                    Name = model.Name,
+                    Email = model.Email,
+                    Departmet = model.Department,
+                    PhotoPath = uniqueFileName
+                };
+                _employeeRepository.Add(newEmployee);
+                return RedirectToAction("details", new { id = newEmployee.ID });
+            }
             return View();
         }
         [HttpGet]
@@ -80,7 +101,7 @@ namespace WebApplication5.Controllers
                 {
                     if (model.ExistingPhotoPath != null)
                     {
-                        string filePath = Path.Combine(hostEnvironment.ContentRootPath, "images", model.ExistingPhotoPath);
+                        string filePath = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\images", model.ExistingPhotoPath);
                         System.IO.File.Delete(filePath);
                     }
                     employee.PhotoPath = processUploadedFile(model);
@@ -90,6 +111,23 @@ namespace WebApplication5.Controllers
                 return RedirectToAction("index");
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int ID)
+        {
+            Employee employee = _employeeRepository.getEmployee(ID);
+            if (employee != null)
+            {
+                if (employee.PhotoPath != null)
+                {
+                    string filePath = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\images", employee.PhotoPath);
+                    System.IO.File.Delete(filePath);
+                }
+                //string uniqueFileName = processUploadedFile(model);
+                _employeeRepository.Delete(ID);
+            }        
+            return RedirectToAction("index");
         }
 
         private string processUploadedFile(EmployeeCreateViewModel model)
@@ -108,24 +146,5 @@ namespace WebApplication5.Controllers
             return uniqueFileName;
         }
 
-        [HttpPost]
-        public IActionResult Create(EmployeeCreateViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                string uniqueFileName = processUploadedFile(model);
-                
-                Employee newEmployee = new Employee
-                {
-                    Name = model.Name,
-                    Email = model.Email,
-                    Departmet = model.Department,
-                    PhotoPath = uniqueFileName
-                };
-                _employeeRepository.Add(newEmployee);
-                return RedirectToAction("details", new { id = newEmployee.ID });
-            }
-            return View();
-        }
     }
 }

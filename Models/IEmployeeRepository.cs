@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication5.Models;
+using WebApplication5.ViewModels;
 
 namespace WebApplication5.Models
 {
@@ -14,6 +15,5 @@ namespace WebApplication5.Models
         Employee Add(Employee employee);
         Employee Update(Employee employeeChanges);
         Employee Delete(int id);
-
     }
 }

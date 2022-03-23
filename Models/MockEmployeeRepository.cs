@@ -6,7 +6,7 @@ using WebApplication5.Models;
 
 namespace WebApplication5.Models
 {
-    public class MockEmployeeRepository : IEmployeeRepository
+    public class MockEmployeeRepository
     {
         private List<Employee> _employeeList;
         public MockEmployeeRepository()
