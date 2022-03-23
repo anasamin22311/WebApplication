@@ -9,14 +9,15 @@ using WebApplication5.ViewModels;
 
 namespace WebApplication5.Config
 {
-    public class EmployeeProfile :Profile
+    public class EmployeeProfile : Profile
     {
         public EmployeeProfile()
         {
-            CreateMap<Employee, EmployeeDto>().ReverseMap()
-                .ForMember(d => d.Departmet, opt => opt.MapFrom(x => x.DepartmentName));
-                ;
-
+            CreateMap<Employee, EmployeeDto>()
+                .ForMember(d => d.DepartmentName, opt => opt.MapFrom(x => x.Departmet.ToString()))
+                //.ReverseMap()
+            ;
+            CreateMap<EmployeeDto, Employee>();
 
             CreateMap<EmployeeDto, HomeDetailsViewModel>()
                  .ForMember(d => d.Employee, opt => opt.MapFrom(x => x))

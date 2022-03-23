@@ -14,11 +14,13 @@ namespace WebApplication5.Models
         [MaxLength(50)]
         public string Name { get; set; }
         [Required]
+        [EmailAddress(ErrorMessage ="enter the mail plz")]
         //[RegularExpression("@^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$")]
         public string Email { get; set; }
         [Required]
         public Dept Departmet { get; set; }
         public string PhotoPath { get; set; }
+        
 
 
     }

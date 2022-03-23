@@ -140,7 +140,11 @@ namespace WebApplication5.Controllers
                     string uploadsFolder = Path.Combine(hostEnvironment.ContentRootPath, "wwwroot\\images");
                     uniqueFileName = Guid.NewGuid().ToString() + "_" + photo.FileName;
                     string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                    photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        photo.CopyTo(fileStream);
+                    }
+                    //photo.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
             }
             return uniqueFileName;
