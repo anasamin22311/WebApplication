@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "/Views/Shared/404Layout.cshtml";
+}}
+<link rel="stylesheet" href="~/css/style.css">
+<body>
+    <!-- partial:index.partial.html -->
+    <h1>Whoops!</h1>
+    <!-- partial -->
+    <div class=" container">
+        <div class="card-header text-center">
+            <h1 class="btn btn-outline-success"> 404 </h1>
+        </div>
+        <div class="card-body text-center">
+            <h5>Employee with ID : @Model cannot be found</h5>
+        </div>
+        <div class="card-footer text-center">
+            <a asp-action="index" asp-controller="home" class="btn btn-outline-success">
+                Click here to see the list of all employees
+            </a>
+        </div>
+    </div>
+</body>

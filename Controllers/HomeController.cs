@@ -45,7 +45,13 @@ namespace WebApplication5.Controllers
         [Route("{id?}")]
         public ViewResult Details(int? id)
         {
-            var employee = _employeeRepository.getEmployee(id ?? 1);
+            Employee _employee = _employeeRepository.getEmployee(id.Value);
+            if (_employee == null)
+            {
+                Response.StatusCode = 404;
+                return View("EmployeeNotFound",id.Value);
+            }
+            var employee = _employee ;
             var dto = _mapper.Map<EmployeeDto>(employee);
             var vm  = _mapper.Map<HomeDetailsViewModel>(dto);
             return View(vm);
